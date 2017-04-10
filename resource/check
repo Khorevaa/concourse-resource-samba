@@ -52,6 +52,12 @@ command=$(smb_get \
 )
 log "command" $command
 
+if [ -d "$archive" ]; then
+   log "archive directory " $archive
+else 
+   log "No such file or directory " $archive
+fi
+
 # - execute network command
 eval $command 2>&1
 
