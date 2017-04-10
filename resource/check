@@ -10,10 +10,11 @@ source $(dirname $0)/lib/crypto
 source $(dirname $0)/lib/net
 
 set_log_prefix "resource/check"
-log "start" $1
 
-destination=$1
-[ -z "${destination}" ] && abort "usage: $0 <path/to/destination>"
+#log "start" $1
+
+#destination=$1
+#[ -z "${destination}" ] && abort "usage: $0 <path/to/destination>"
 
 # for jq
 PATH=/usr/local/bin:$PATH
