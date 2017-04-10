@@ -9,8 +9,14 @@ smb () {
 }
 
 smb_get () {
-	#log "smb_get" $@
-
+	#echo "smb_get" $@
+	echo "echo param 1 = " $1
+	echo " param 2 = " $2
+	echo " param 3 = " $3
+	echo " param 4 = " $4
+	echo " param 5 = " $5
+	echo " param 6 = " $6
+	
 	# uri string
 	([ -n "${1}" ]) \
 		&& uri=$1 \
