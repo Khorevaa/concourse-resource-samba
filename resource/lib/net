@@ -5,18 +5,12 @@ smb () {
 		&& connection=$1 \
 		|| abort "missing connect"
 
-	echo "/usr/bin/smbclient $connection --grepable --debuglevel=0 ${@:2}"
+	#echo "/usr/bin/smbclient $connection --grepable --debuglevel=0 ${@:2}"
 }
 
 smb_get () {
 	#echo "smb_get" $@
-	echo "echo param 1 = " $1
-	echo " param 2 = " $2
-	echo " param 3 = " $3
-	echo " param 4 = " $4
-	echo " param 5 = " $5
-	echo " param 6 = " $6
-	
+	echo ${@:1}
 	# uri string
 	([ -n "${1}" ]) \
 		&& uri=$1 \
