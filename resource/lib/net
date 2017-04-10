@@ -9,36 +9,41 @@ smb () {
 }
 
 smb_get () {
-	log "smb_get" $@
+	#log "smb_get" $@
 
 	# uri string
 	([ -n "${1}" ]) \
 		&& uri=$1 \
 		|| abort "missing //server/share"
 
-	# path to bundle and download
+	# start directory 
 	([ -n "${2}" ]) \
-		&& path="${2}" \
+		&& directory="-D ${2}" \
+		|| directory=""
+
+	# path to bundle and download
+	([ -n "${3}" ]) \
+		&& path="${3}" \
 		|| path=""
 
 	# archive to download into
-	([ -n "${3}" ]) \
-		&& archive=$3 \
+	([ -n "${4}" ]) \
+		&& archive=$4 \
 		|| archive=""
 
 	# username and password
-	([ -n "${4}" ]) \
-		&& user="--user=${4} " \
-		|| user=""
 	([ -n "${5}" ]) \
-		&& password="${5} " \
+		&& user="--user=${5} " \
+		|| user=""
+	([ -n "${6}" ]) \
+		&& password="${6} " \
 		|| password="'' -N "
 
-	smb "$uri $password $user" -Tc $archive $path
+	smb "$uri $password $user" $directory -Tc $archive $path
 }
 
 smb_put () {
-	log "smb_put" $@
+	#log "smb_put" $@
 
 	# uri string
 	([ -n "${1}" ]) \

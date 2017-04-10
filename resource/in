@@ -10,10 +10,16 @@ source $(dirname $0)/lib/crypto
 source $(dirname $0)/lib/net
 
 set_log_prefix "resource/in"
-log "start" $1
+log "start" 
+
 
 destination=$1
-[ -z "${destination}" ] && abort "usage: $0 <path/to/destination>"
+
+if [ -z "$destination" ]; then
+  echo "usage: $0 <path/to/destination>" >&2
+  exit 1
+fi
+
 
 # for jq
 PATH=/usr/local/bin:$PATH
@@ -31,11 +37,12 @@ touch $archive
 cat > $request <&0
 log "request"
 
+connection=$(jq -r '"//\(.source.server)/\(.source.share)"' < $request)
 uri=$(jq -r '.source.uri' < $request)
 directory=$(jq -r '.source.directory // ""' < $request)
 user=$(jq -r '.source.user // ""' < $request)
 password=$(jq -r '.source.password // ""' < $request)
-source=$(jq -r '.params.source // ""' < $request)
+path=$(jq -r '.params.path // ""' < $request)
 
 ###
 # Get the resources
@@ -44,7 +51,7 @@ log "connection" $connection
 command=$(smb_get \
 	$connection \
 	$directory \
-	$source \
+	$path \
 	$archive \
 	$user \
 	$password

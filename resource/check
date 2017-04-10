@@ -11,7 +11,7 @@ source $(dirname $0)/lib/net
 
 set_log_prefix "resource/check"
 
-#log "start" $1
+log "start" 
 
 #destination=$1
 #[ -z "${destination}" ] && abort "usage: $0 <path/to/destination>"
@@ -26,7 +26,6 @@ archive=$payload/archive
 touch $request
 touch $response
 touch $archive
-
 ###
 # The request from Concourse
 cat > $request <&0
@@ -50,13 +49,7 @@ command=$(smb_get \
 	$user \
 	$password
 )
-log "command" $command
-
-if [ -d "$payload" ]; then
-   log "payload directory " $payload
-else 
-   log "No such file or directory " $payload
-fi
+#log "command" $command
 
 # - execute network command
 eval $command 2>&1
