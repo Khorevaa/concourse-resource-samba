@@ -10,7 +10,9 @@ smb () {
 
 smb_get () {
 	#echo "smb_get" $@
+	
 	echo ${@:1}
+	log "testing"
 	# uri string
 	([ -n "${1}" ]) \
 		&& uri=$1 \
