@@ -11,8 +11,8 @@ smb () {
 smb_get () {
 	#echo "smb_get" $@
 	
-	echo ${@:1}
-	log "testing"
+	log "echo " ${@:1}
+	#log "testing"
 	# uri string
 	([ -n "${1}" ]) \
 		&& uri=$1 \
@@ -35,11 +35,11 @@ smb_get () {
 
 	# username and password
 	([ -n "${5}" ]) \
-		&& user="--user=$5 " \
+		&& user="--user=${5} " \
 		|| user=""
 	
 	([ -n "${6}" ]) \
-		&& password="$6 " \
+		&& password="${6} " \
 		|| password="'' -N "
 
 	smb "$uri $password $user" $directory -Tc $archive $path
