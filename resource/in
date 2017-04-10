@@ -54,8 +54,7 @@ command=$(smb_get \
 	$path \
 	$archive \
 	$user \
-	$password
-)
+	$password )
 log "command" $command
 # - execute network command
 eval $command 2>&1

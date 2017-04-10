@@ -35,6 +35,7 @@ smb_get () {
 	([ -n "${5}" ]) \
 		&& user="--user=${5} " \
 		|| user=""
+	
 	([ -n "${6}" ]) \
 		&& password="${6} " \
 		|| password="'' -N "

@@ -61,8 +61,7 @@ command=$(smb_put \
 	$resource_path \
 	$in_archive \
 	$resource_user \
-	$resource_password
-)
+	$resource_password)
 # - execute network command
 eval $command 2>&1
 
