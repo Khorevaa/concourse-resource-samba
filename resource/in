@@ -67,7 +67,7 @@ hash=$(cat $archive | generate_hash | format_hash)
 mkdir $payload/tmp
 tar -C $payload/tmp -xvf $archive "./${directory}/${path}"
 # - move it out to the place concourse expects it to be
-mv $payload/tmp/$directory/$path $destination
+mv -f $payload/tmp/$directory/$path $destination
 
 ###
 # Generate Response

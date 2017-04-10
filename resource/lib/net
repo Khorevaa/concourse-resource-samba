@@ -18,12 +18,12 @@ smb_get () {
 
 	# start directory 
 	([ -n "${2}" ]) \
-		&& directory="-D ${2}" \
+		&& directory="-D $2" \
 		|| directory=""
 
 	# path to bundle and download
 	([ -n "${3}" ]) \
-		&& path="${3}" \
+		&& path="$3" \
 		|| path=""
 
 	# archive to download into
@@ -33,11 +33,11 @@ smb_get () {
 
 	# username and password
 	([ -n "${5}" ]) \
-		&& user="--user=${5} " \
+		&& user="--user=$5 " \
 		|| user=""
 	
 	([ -n "${6}" ]) \
-		&& password="${6} " \
+		&& password="$6 " \
 		|| password="'' -N "
 
 	smb "$uri $password $user" $directory -Tc $archive $path
