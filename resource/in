@@ -42,7 +42,7 @@ uri=$(jq -r '.source.uri' < $request)
 directory=$(jq -r '.source.directory // ""' < $request)
 user=$(jq -r '.source.user // ""' < $request)
 password=$(jq -r '.source.password // ""' < $request)
-path=$(jq -r '.params.path // ""' < $request)
+path=$(jq -r '.source.path // ""' < $request)
 
 ###
 # Get the resources

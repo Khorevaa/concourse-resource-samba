@@ -36,13 +36,13 @@ resource_uri=$(jq -r '.source.uri // ""' < $request)
 resource_user=$(jq -r '.source.user // ""' < $request)
 resource_password=$(jq -r '.source.password // ""' < $request)
 
-params_path=$src/$(jq -r '.params.path // "."' < $request)
+params_path=$src/$(jq -r '.source.path // "."' < $request)
 
 log "concourse.source" $src
 log "resource.uri" $resource_uri
 log "resource.user" $resource_user
 log "resource.pasword" [[ -n "${resource_password}" ]] && '<hidden>' || ''
-log "params.path" $params_path
+log "source.path" $params_path
 
 ###
 # Generate the archive
