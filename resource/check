@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-set -e -u
+set -e 
+#set -u
 
 exec 3>&1 # make stdout available as fd 3 for the result
 exec 1>&2 # redirect all output to stderr for logging
@@ -48,7 +49,7 @@ command=$(smb_get \
 	$archive \
 	$user \
 	$password )
-#log "command" $command
+log "command" $command
 
 # - execute network command
 eval $command 2>&1

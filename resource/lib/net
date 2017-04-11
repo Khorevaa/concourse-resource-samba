@@ -5,14 +5,11 @@ smb () {
 		&& connection=$1 \
 		|| abort "missing connect"
 
-	#echo "/usr/bin/smbclient $connection --grepable --debuglevel=0 ${@:2}"
+	echo "/usr/bin/smbclient $connection --grepable --debuglevel=0 ${@:2}"
 }
 
 smb_get () {
-	#echo "smb_get" $@
-	
-	log "echo " ${@:1}
-	#log "testing"
+
 	# uri string
 	([ -n "${1}" ]) \
 		&& uri=$1 \
