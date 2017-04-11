@@ -31,6 +31,7 @@ touch $archive
 # The request from Concourse
 cat > ${request} <&0
 log "request"
+cat ${request}
 
 connection=$(jq -r '"//\(.source.server)/\(.source.share)"' < ${request})
 directory=$(jq -r '.source.directory // ""' < ${request})
