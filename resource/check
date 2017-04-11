@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -e 
+set -e -x 
 #set -u
 
 exec 3>&1 # make stdout available as fd 3 for the result
@@ -29,40 +29,40 @@ touch $response
 touch $archive
 ###
 # The request from Concourse
-cat > $request <&0
+cat > ${request} <&0
 log "request"
 
-connection=$(jq -r '"//\(.source.server)/\(.source.share)"' < $request)
-directory=$(jq -r '.source.directory // ""' < $request)
-user=$(jq -r '.source.user // ""' < $request)
-password=$(jq -r '.source.password // ""' < $request)
-path=$(jq -r '.params.path // ""' < $request)
+connection=$(jq -r '"//\(.source.server)/\(.source.share)"' < ${request})
+directory=$(jq -r '.source.directory // ""' < ${request})
+user=$(jq -r '.source.user // ""' < ${request})
+password=$(jq -r '.source.password // ""' < ${request})
+path=$(jq -r '.params.path // ""' < ${request})
 
 ###
 # Get the resources
 # - build network command
-log "connection" $connection
+log "connection" ${connection}
 command=$(smb_get \
-	$connection \
-	$directory \
-	$path \
-	$archive \
-	$user \
-	$password )
-log "command" $command
+	${connection}\
+	${directory} \
+	${path} \
+	${archive} \
+	${user} \
+	${password} )
+log "command" ${command}
 
 # - execute network command
-eval $command 2>&1
+eval ${command} 2>&1
 
 ###
 # Examine retrieved resources
 # - generate fingerprint of archive contents
-hash=$(cat $archive | generate_hash | format_hash)
+hash=$(cat ${archive} | generate_hash | format_hash )
 
 ###
 # Generate Response
 # - basic string, using the fingerprint
 response="{ \"ref\": \"${hash}\" }"
-log "response" $response
+log "response" ${response}
 # - send response
-success $response
+success ${response}
