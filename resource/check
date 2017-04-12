@@ -69,7 +69,7 @@ hash=$(cat ${archive} | generate_hash | format_hash )
 
 # OUTPUT **************************************************************************************
 json_output='[
-    { "ref": "'${hash}'" },
+    { "ref": "'${hash}'" }
 
 ]'
 
