@@ -34,6 +34,6 @@ abort () {
 #  * @return {Exit 0}
 #  */
 success () {
-  echo "success " $@
+  echo $@
   exit 0
 }
