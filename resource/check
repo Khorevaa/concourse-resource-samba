@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-set -e -x 
+set -e 
+#set -x 
+set -o pipefai
 set -u
 
 exec 3>&1 # make stdout available as fd 3 for the result
@@ -63,7 +65,15 @@ hash=$(cat ${archive} | generate_hash | format_hash )
 ###
 # Generate Response
 # - basic string, using the fingerprint
-response="{ \"version\": {\"ref\": \"${hash}\" }}"
-log "response" ${response}
-# - send response
-success ${response}
+#response="{ \"version\": {\"ref\": \"${hash}\" }}"
+
+# OUTPUT **************************************************************************************
+json_output='[
+    { "ref": "'${hash}'" },
+
+]'
+
+echo ".json output is $json_output"
+
+# -n don't read any input at all.  Construct froms scratch.
+jq -n "$json_output" >&3
