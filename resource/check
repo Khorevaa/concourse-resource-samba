@@ -12,9 +12,9 @@ source $(dirname $0)/lib/log
 source $(dirname $0)/lib/crypto
 source $(dirname $0)/lib/net
 
-set_log_prefix "resource/check"
+#set_log_prefix "resource/check"
 
-log "start" 
+#log "start" 
 
 #destination=$1
 #[ -z "${destination}" ] && abort "usage: $0 <path/to/destination>"
@@ -32,8 +32,8 @@ touch $archive
 ###
 # The request from Concourse
 cat > ${request} <&0
-log "request"
-cat ${request}
+#log "request"
+#cat ${request}
 
 connection=$(jq -r '"//\(.source.server)/\(.source.share)"' < ${request})
 directory=$(jq -r '.source.directory // ""' < ${request})
@@ -44,7 +44,7 @@ path=$(jq -r '.source.path // ""' < ${request})
 ###
 # Get the resources
 # - build network command
-log "connection" ${connection}
+#log "connection" ${connection}
 command=$(smb_get \
 	${connection}\
 	${directory} \
@@ -52,7 +52,7 @@ command=$(smb_get \
 	${archive} \
 	${user} \
 	${password} )
-log "command" ${command}
+#log "command" ${command}
 
 # - execute network command
 eval ${command} 2>&1

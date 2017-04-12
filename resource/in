@@ -1,17 +1,19 @@
 #!/usr/bin/env bash
 
-set -e -u
+set -e              # Willexit immediate if command exits with non-zero status
+set -u              # Will print message if variable not set,
+#set -x             # Prints the shell commands +
+set -o pipefail     # Fail on a pipline like cmd1 | cmd2 | cmd3, rather then wait
 
-exec 3>&1 # make stdout available as fd 3 for the result
-exec 1>&2 # redirect all output to stderr for logging
+exec 3>&1           # Make stdout available as fd 3 for the result
+exec 1>&2           # Redirect all output to stderr for logging
+
+echo "IN (FETCH THE RESOURCE)"
+echo ""
 
 source $(dirname $0)/lib/log
 source $(dirname $0)/lib/crypto
 source $(dirname $0)/lib/net
-
-set_log_prefix "resource/in"
-log "start" 
-
 
 destination=$1
 
@@ -35,10 +37,9 @@ touch $archive
 ###
 # The request from Concourse
 cat > $request <&0
-log "request"
+#log "request"
 
 connection=$(jq -r '"//\(.source.server)/\(.source.share)"' < $request)
-uri=$(jq -r '.source.uri' < $request)
 directory=$(jq -r '.source.directory // ""' < $request)
 user=$(jq -r '.source.user // ""' < $request)
 password=$(jq -r '.source.password // ""' < $request)
@@ -47,7 +48,7 @@ path=$(jq -r '.source.path // ""' < $request)
 ###
 # Get the resources
 # - build network command
-log "connection" $connection
+#log "connection" $connection
 command=$(smb_get \
 	$connection \
 	$directory \
@@ -55,7 +56,7 @@ command=$(smb_get \
 	$archive \
 	$user \
 	$password )
-log "command" $command
+#log "command" $command
 # - execute network command
 eval $command 2>&1
 
@@ -69,10 +70,13 @@ tar -C $payload/tmp -xvf $archive "./${directory}/${path}"
 # - move it out to the place concourse expects it to be
 mv -f $payload/tmp/$directory/$path $destination
 
-###
-# Generate Response
-# - basic string, using the fingerprint
-response="{ \"ref\": \"${hash}\" }"
-log "response" $response
-# - send response
-success $response
+# OUTPUT **************************************************************************************
+json_output='{
+    "version": { "ref": "'${hash}'" }
+}'
+
+#echo ".json output is $json_output"
+
+# -n don't read any input at all.  Construct froms scratch.
+jq -n "$json_output" >&3
+
