@@ -63,7 +63,7 @@ hash=$(cat ${archive} | generate_hash | format_hash )
 ###
 # Generate Response
 # - basic string, using the fingerprint
-response="{ \"ref\": \"${hash}\" }"
+response="{ \"version\": {\"ref\": \"${hash}\" }}"
 log "response" ${response}
 # - send response
 success ${response}
